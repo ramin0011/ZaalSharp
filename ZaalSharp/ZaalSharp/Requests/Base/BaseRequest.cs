@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace ZaalSharp.Requests.Base
 {
@@ -10,7 +11,8 @@ namespace ZaalSharp.Requests.Base
         {
             this.Method = method;
         }
-        public string Method { get; set; }
+        [JsonProperty()]
+        internal string Method { get; set; }
     }
 
     public class Methods

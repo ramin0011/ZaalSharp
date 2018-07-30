@@ -50,41 +50,47 @@ namespace ZaalSharp.Connector
 
         public static async Task<TResult> PostAsync<TRequest, TResult>(string uri, TRequest data)
         {
-            HttpResponseMessage response = await Post(uri, data);
-            string responseData = await response.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<TResult>(responseData, GetSerializerSettings());
+            var response = await Post(uri, data);
+            return JsonConvert.DeserializeObject<TResult>(response, GetSerializerSettings());
         }
 
-        private static async Task<HttpResponseMessage> Post<TRequest>(string uri, TRequest data)
+        private static async Task<string> Post<TRequest>(string uri, TRequest data)
         {
-            var httpClient = CreateHttpClient;
-            string serialized = JsonConvert.SerializeObject(data, GetSerializerSettings());
-            var response = await httpClient.PostAsync(uri, new StringContent(serialized, Encoding.UTF8, "application/json"));
-            await HandleResponse(response);
-            return response;
+
+
+            HttpWebRequest request = HttpWebRequest.CreateHttp(uri);
+            request.Method = "POST";
+
+            request.Accept = "*/*";
+            var postData = JsonConvert.SerializeObject(data, GetSerializerSettings());
+            var d = Encoding.ASCII.GetBytes(postData);
+            request.Method = "POST";
+            request.ContentLength = d.Length;
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(d, 0, d.Length);
+            }
+
+            request.ContentType = "application/json";
+            var response = (HttpWebResponse)request.GetResponse();
+
+
+            using (var stream = new StreamReader(response.GetResponseStream()))
+            {
+                return await stream.ReadToEndAsync();
+            }
+
         }
 
-        public static Task<TResult> PutAsync<TResult>(string uri, TResult data)
-        {
-            return PutAsync<TResult, TResult>(uri, data);
-        }
-
-        public static async Task<TResult> PutAsync<TRequest, TResult>(string uri, TRequest data)
-        {
-            var httpClient = CreateHttpClient;
-            string serialized =  JsonConvert.SerializeObject(data, GetSerializerSettings());
-            var response = await httpClient.PutAsync(uri, new StringContent(serialized, Encoding.UTF8, "application/json"));
-            await HandleResponse(response);
-            string responseData = await response.Content.ReadAsStringAsync();
-            return await Task.Run(() => JsonConvert.DeserializeObject<TResult>(responseData, GetSerializerSettings()));
-        }
+ 
 
         private static HttpClient CreateHttpClient
         {
             get
             {
                 var httpClient = new HttpClient();
-                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+               // httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
                 return httpClient;
             }
         }

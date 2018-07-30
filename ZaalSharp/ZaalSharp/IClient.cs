@@ -1,12 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using ZaalSharp.Connector;
+﻿using System.Threading.Tasks;
 using ZaalSharp.Responses;
 
 namespace ZaalSharp
 {
-    public class Client : IClient
+    public interface IClient
     {
         /// <summary>
         /// A document as seen a in news articles can be classified based on different topics it addresses.
@@ -14,22 +11,15 @@ namespace ZaalSharp
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<DocumentClassifierResponse> DocumentClassifier(Requests.DocumentClassifierRequest request)
-        {
-            var res =await HttpHelper.PostAsync<Requests.DocumentClassifierRequest, Responses.DocumentClassifierResponse>(Connector.ZaalSettings.ApiUrl,request);
-            return res;
-        }
+        Task<DocumentClassifierResponse> DocumentClassifier(Requests.DocumentClassifierRequest request);
+
         /// <summary>
         /// This a method is used for retrieving documents sentiment score (bearing emotional and sentimental tonality). 
         /// Given a document in Persian, this method returns a score in a range of [-1, +1] where +1 represents a highly positive opinion and -1 designates a high degree of negativity in the document.
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<Responses.DocumentSentimentResponse> DocumentSentiment(Requests.DocumentSentimentRequest request)
-        {
-            var res =await HttpHelper.PostAsync<Requests.DocumentSentimentRequest, Responses.DocumentSentimentResponse>(Connector.ZaalSettings.ApiUrl,request);
-            return res;
-        }
+        Task<Responses.DocumentSentimentResponse> DocumentSentiment(Requests.DocumentSentimentRequest request);
 
         /// <summary>
         /// There could be multiple segments of a document where each segment has its own sentiment score.
@@ -38,11 +28,7 @@ namespace ZaalSharp
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<Responses.DocumentSentimentResponse> DocumentAspectSentiment(Requests.DocumentAspectSentimentRequest request)
-        {
-            var res =await HttpHelper.PostAsync<Requests.DocumentAspectSentimentRequest, Responses.DocumentSentimentResponse>(Connector.ZaalSettings.ApiUrl,request);
-            return res;
-        }
+        Task<Responses.DocumentSentimentResponse> DocumentAspectSentiment(Requests.DocumentAspectSentimentRequest request);
 
         /// <summary>
         /// One application of NLP is to extract synonyms of a word.
@@ -51,11 +37,7 @@ namespace ZaalSharp
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<Responses.WordSuggestorResponse> WordSuggestor(Requests.WordSuggestorRequest request)
-        {
-            var res =await HttpHelper.PostAsync<Requests.WordSuggestorRequest, Responses.WordSuggestorResponse>(Connector.ZaalSettings.ApiUrl,request);
-            return res;
-        }
+        Task<Responses.WordSuggestorResponse> WordSuggestor(Requests.WordSuggestorRequest request);
 
         /// <summary>
         /// Keyword extractor (as the name suggests) extracts the most important words from a given text.
@@ -64,10 +46,6 @@ namespace ZaalSharp
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public async Task<Responses.KeywordExtractorResponse> KeywordExtractor(Requests.KeyWordExtractorRequest request)
-        {
-            var res =await HttpHelper.PostAsync<Requests.KeyWordExtractorRequest, Responses.KeywordExtractorResponse>(Connector.ZaalSettings.ApiUrl,request);
-            return res;
-        }
+        Task<Responses.KeywordExtractorResponse> KeywordExtractor(Requests.KeyWordExtractorRequest request);
     }
 }

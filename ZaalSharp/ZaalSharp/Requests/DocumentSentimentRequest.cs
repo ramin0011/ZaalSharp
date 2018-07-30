@@ -20,7 +20,7 @@ namespace ZaalSharp.Requests
         [JsonProperty("args")]
         public DocumentSentimentInputRequest Data { get; set; }
 
-        public DocumentSentimentRequest(string method) : base(Base.Methods.SentimentAnalyzer)
+        public DocumentSentimentRequest() : base(Base.Methods.SentimentAnalyzer)
         {
         }
     }
