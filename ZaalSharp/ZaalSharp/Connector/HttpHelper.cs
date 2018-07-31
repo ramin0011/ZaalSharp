@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -11,7 +12,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace ZaalSharp.Connector
 {
-    public class HttpHelper 
+    internal class HttpHelper 
     {
         public static JsonSerializerSettings GetSerializerSettings()
         {
@@ -74,36 +75,14 @@ namespace ZaalSharp.Connector
             request.ContentType = "application/json";
             var response = (HttpWebResponse)request.GetResponse();
 
-
+           
             using (var stream = new StreamReader(response.GetResponseStream()))
             {
+               
                 return await stream.ReadToEndAsync();
             }
-
         }
 
  
-
-        private static HttpClient CreateHttpClient
-        {
-            get
-            {
-                var httpClient = new HttpClient();
-               // httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
-                return httpClient;
-            }
-        }
-
-        private static async Task HandleResponse(HttpResponseMessage response)
-        {
-            if (!response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                if (response.StatusCode == HttpStatusCode.Forbidden || response.StatusCode == HttpStatusCode.Unauthorized)
-                    throw new Exception(content);
-                throw new HttpRequestException(content);
-            }
-        }
     }
 }
