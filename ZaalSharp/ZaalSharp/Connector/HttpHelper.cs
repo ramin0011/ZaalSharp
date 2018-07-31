@@ -20,7 +20,8 @@ namespace ZaalSharp.Connector
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Ignore,
+                MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             };
             settings.Converters.Add(new StringEnumConverter());
             return settings;

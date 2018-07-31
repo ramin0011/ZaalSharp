@@ -13,10 +13,10 @@ namespace ZaalSharp.Responses
 
     public class KeywordExtractortData
     {
-        [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
-        public string Status { get; set; }
+        [JsonProperty("pay_load", TypeNameHandling = TypeNameHandling.Auto)]
+        public Dictionary<string, double> PayLoad { get; set; }
 
-        [JsonProperty("pay_load", NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<double,string> PayLoad { get; set; }
+        [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
+        public string Status { get; set; }  
     }
 }
