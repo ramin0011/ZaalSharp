@@ -4,6 +4,8 @@
 <a href="https://travis-ci.org/ramin0011/ZaalSharp.svg?branch=master"><img src="https://travis-ci.org/ramin0011/ZaalSharp.svg?branch=master"></a>
 
 
+<a href="https://www.nuget.org/packages/ZaalSharp/" > install by nuget </a>
+
 
 Zaal is a Persian NLP (natural language processor) API . ZaalSharp is a wrapper around the Zaal API. ZaalSharp has no connection with Zaal its self
 
