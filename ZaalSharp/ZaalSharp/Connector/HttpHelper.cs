@@ -58,23 +58,22 @@ namespace ZaalSharp.Connector
 
         private static async Task<string> Post<TRequest>(string uri, TRequest data)
         {
-
+            //new HttpClient().PostAsync<TRequest>(uri,)
 
             HttpWebRequest request = HttpWebRequest.CreateHttp(uri);
             request.Method = "POST";
 
             request.Accept = "*/*";
-            var postData = JsonConvert.SerializeObject(data, GetSerializerSettings());
-            var d = Encoding.ASCII.GetBytes(postData);
-            request.Method = "POST";
-            request.ContentLength = d.Length;
+            var postData = JsonConvert.SerializeObject(data, GetSerializerSettings())+ " ";
+            var bytes = Encoding.UTF8.GetBytes(postData);
+            request.ContentLength = bytes.Length;
             using (var stream = request.GetRequestStream())
             {
-                stream.Write(d, 0, d.Length);
+                stream.Write(bytes, 0, bytes.Length);
             }
-
+            request.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1);Accept-Language:ar";
             request.ContentType = "application/json";
-            var response = (HttpWebResponse)request.GetResponse();
+            var response = (HttpWebResponse)( await request.GetResponseAsync());
 
            
             using (var stream = new StreamReader(response.GetResponseStream()))
