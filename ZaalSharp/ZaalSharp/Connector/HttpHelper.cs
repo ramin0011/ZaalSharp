@@ -75,7 +75,6 @@ namespace ZaalSharp.Connector
             request.ContentType = "application/json";
             var response = (HttpWebResponse)( await request.GetResponseAsync());
 
-           
             using (var stream = new StreamReader(response.GetResponseStream()))
             {
                
