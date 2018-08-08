@@ -1,5 +1,10 @@
+dist: trusty
+sudo: required
 language: csharp
 mono: none
-dotnet: 2.0
+dotnet: 2.0.0
+solution: ZaalSharp.sln
 script:
- - dotnet restore
+  - cd ZaalSharp
+  - dotnet restore
+  - dotnet build -c Release
