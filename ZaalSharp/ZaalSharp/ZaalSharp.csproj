@@ -8,6 +8,7 @@
 to get more info about Zaal refer to http://getzaal.com</Description>
     <PackageProjectUrl>https://github.com/ramin0011/ZaalSharp</PackageProjectUrl>
     <PackageTags>Zaal NLP PersianNlp</PackageTags>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
