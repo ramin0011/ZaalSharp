@@ -62,7 +62,8 @@ namespace ZaalSharp.Connector
 
             HttpWebRequest request = HttpWebRequest.CreateHttp(uri);
             request.Method = "POST";
-
+            request.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1);Accept-Language:ar";
+            request.ContentType = "application/json";
             request.Accept = "*/*";
             var postData = JsonConvert.SerializeObject(data, GetSerializerSettings())+ " ";
             var bytes = Encoding.UTF8.GetBytes(postData);
@@ -71,8 +72,7 @@ namespace ZaalSharp.Connector
             {
                 stream.Write(bytes, 0, bytes.Length);
             }
-            request.UserAgent = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1);Accept-Language:ar";
-            request.ContentType = "application/json";
+        
             var response = (HttpWebResponse)( await request.GetResponseAsync());
 
             using (var stream = new StreamReader(response.GetResponseStream()))
